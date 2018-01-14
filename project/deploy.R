@@ -1,7 +1,8 @@
 
 library(rsconnect)
 
-setwd("~/Github/natt/")
+# setwd("~/Github/natt/")
+setwd("E:/Github/natt/")
 
 
 # change instance type
