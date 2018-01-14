@@ -9,10 +9,11 @@ ui <- dashboardPage(
   dashboardBody(
     tags$style(type='text/css', '
                   #run_btton { width: 45%; margin-top: 25px; color: white; }
+                  .shiny-output-error-validation {  color: red; }
                '),
     fluidPage(sidebarLayout(
       sidebarPanel(
-        width = 2,
+        width = 3,
         numericInput(inputId = "input_heart",
                      label = "心跳速率(HEART):",
                      value = 0,
