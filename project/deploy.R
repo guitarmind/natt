@@ -6,10 +6,10 @@ setwd("E:/Github/natt/")
 
 
 # change instance type
-# rsconnect::configureApp(account="guitarmind", "utc-demo", size="large")
+# rsconnect::configureApp(account="natt", "hrv-analysis", size="large")
 
 # deploy to remote app
-rsconnect::deployApp(account="guitarmind", appDir='project/hrv', appName="hrv")
+rsconnect::deployApp(account="natt", appDir='project/hrv', appName="hrv-analysis")
 
 # show logs
-rsconnect::showLogs(account="guitarmind", appName="hrv")
+rsconnect::showLogs(account="natt", appName="hrv-analysis")
