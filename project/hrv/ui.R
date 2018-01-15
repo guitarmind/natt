@@ -1,6 +1,7 @@
 
 library(shiny)
 library(shinydashboard)
+library(radarchart)
 
 ui <- dashboardPage(
   dashboardHeader(title = enc2native("心率變異度分析 Heart Rate Variability (HRV) Diagnosis"),
@@ -46,7 +47,14 @@ ui <- dashboardPage(
       ),
       mainPanel(
         width = 9,
-        plotOutput("diagnosePlot")
+        wellPanel(
+          h3("診斷結果",
+             style = "text-align: center"),
+          # plotOutput("diagnosePlot")
+          chartJSRadarOutput("diagnoseRadar", width = "450", height = "300"),
+          textOutput("diagnoseText"),
+          style = "background-color: #fcfcfc;"
+        )
       )
     ), title = enc2native("五力圖數值診斷"))
   )
