@@ -47,14 +47,21 @@ ui <- dashboardPage(
             style = "text-align: right")
       ),
       mainPanel(
-        width = 9,wellPanel(
-          h3("診斷結果",
-             style = "text-align: center"),
-          chartJSRadarOutput("diagnoseRadar", height = "200px"),
-          style = "background-color: #fcfcfc;"
-        ),
-        wellPanel(
-          dataTableOutput('diagnoseTable', height = "150px")
+        width = 9,
+        column(
+          width = 12,
+          align="center",
+          wellPanel(
+            h3("診斷結果",
+               style = "text-align: center;"),
+            chartJSRadarOutput("diagnoseRadar"),
+            # chartJSRadarOutput("diagnoseRadar", width = "300", height = "200"),
+            style = "background-color: #fcfcfc;"
+          ),
+          wellPanel(
+            dataTableOutput('diagnoseTable'),
+            style = "height: 100%;"
+          )
         )
       )
     ), title = enc2native("五力圖數值診斷"))

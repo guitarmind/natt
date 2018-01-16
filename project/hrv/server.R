@@ -54,6 +54,7 @@ server <- function(input, output, session) {
       chartJSRadar(scores = scores, labs = labs,
                    maxScale = 99,
                    labelSize = 18,
+                   responsive = F,
                    colMatrix = grDevices::col2rgb(c("#00ccff", "orange", "#00cc00")),
                    borderWidth = 10)
     })
