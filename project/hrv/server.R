@@ -9,11 +9,11 @@ server <- function(input, output, session) {
   
   diagnosis <- eventReactive(input$run_btton, {
     validate(
-      need(input$input_heart > 0 && input$input_heart < 100, "HEART needs in between 1 and 99!"),
-      need(input$input_sex > 0 && input$input_sex < 100, "SEX needs in between 1 and 99!"),
-      need(input$input_health > 0 && input$input_health < 100, "HEALTH needs in between 1 and 99!"),
-      need(input$input_fight > 0 && input$input_fight < 100, "FIGHT needs in between 1 and 99!"),
-      need(input$input_vital > 0 && input$input_vital < 100, "VITAL needs in between 1 and 99!")
+      need(input$input_heart > 0 && input$input_heart < 100, enc2utf8("心跳速率(HEART)須介於1至99之間!")),
+      need(input$input_sex > 0 && input$input_sex < 100, enc2utf8("副交感神經(SEX)須介於1至99之間!")),
+      need(input$input_health > 0 && input$input_health < 100, enc2utf8("自律神經整體活性(HEALTH)須介於1至99之間!")),
+      need(input$input_fight > 0 && input$input_fight < 100, enc2utf8("交感神經(FIGHT)須介於1至99之間!")),
+      need(input$input_vital > 0 && input$input_vital < 100, enc2utf8("整體神經功能(VITAL)須介於1至99之間!"))
     )
     
     heart = diagnosis_rules("heart", input$input_heart)
@@ -54,7 +54,8 @@ server <- function(input, output, session) {
       chartJSRadar(scores = scores, labs = labs,
                    maxScale = 99,
                    labelSize = 18,
-                   colMatrix = grDevices::col2rgb(c("blue", "orange", "green")))
+                   colMatrix = grDevices::col2rgb(c("#00ccff", "orange", "#00cc00")),
+                   borderWidth = 10)
     })
   })
   
@@ -83,30 +84,4 @@ server <- function(input, output, session) {
                   ),
                   fontWeight = 'bold')
   })
-  
-  # output$diagnoseTable <- renderTable({
-  #   input$run_btton
-  # 
-  #   isolate({
-  #     data = diagnosis()
-  #   })
-  # },
-  # striped = TRUE,
-  # bordered = TRUE,
-  # width = "100%",
-  # spacing = 'l')
-  
-  # output$diagnoseText <- renderText({
-  #   input$run_btton
-  #   
-  #   isolate({
-  #     data = diagnosis()
-  #     
-  #     # paste(enc2native("心跳速率: "), paste(data$heart))
-  #     # paste(enc2native("副交感神經: "), paste(data$sex))
-  #     # paste(enc2native("自律神經整體活性: "), paste(data$health))
-  #     # paste(enc2native("交感神經: "), paste(data$fight))
-  #     # paste(enc2native("總體神經功能: "), paste(data$vital))
-  #   })
-  # })
 }
