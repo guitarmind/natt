@@ -1,11 +1,15 @@
 
-library(shiny)
-library(shinydashboard)
-library(magrittr)
-library(data.table)
-library(DT)
+source("deps.R")
 
 server <- function(input, output, session) {
+  
+  observeEvent(input$clear_btton, {
+    updateTextInput(session, "input_heart", value = "")
+    updateTextInput(session, "input_sex", value = "")
+    updateTextInput(session, "input_health", value = "")
+    updateTextInput(session, "input_fight", value = "")
+    updateTextInput(session, "input_vital", value = "")
+  }, ignoreNULL = TRUE)
   
   diagnosis <- eventReactive(input$run_btton, {
     validate(
@@ -16,11 +20,11 @@ server <- function(input, output, session) {
       need(input$input_vital > 0 && input$input_vital < 100, enc2utf8("整體神經功能(VITAL)須介於1至99之間!"))
     )
     
-    heart = diagnosis_rules("heart", input$input_heart)
-    sex = diagnosis_rules("sex", input$input_sex)
-    health = diagnosis_rules("health", input$input_health)
-    fight = diagnosis_rules("fight", input$input_fight)
-    vital = diagnosis_rules("vital", input$input_vital)
+    heart = diagnosis_rules("heart", as.integer(input$input_heart))
+    sex = diagnosis_rules("sex", as.integer(input$input_sex))
+    health = diagnosis_rules("health", as.integer(input$input_health))
+    fight = diagnosis_rules("fight", as.integer(input$input_fight))
+    vital = diagnosis_rules("vital", as.integer(input$input_vital))
     
     result = rbindlist(list(heart=heart,
                             sex=sex,
