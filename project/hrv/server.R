@@ -42,12 +42,12 @@ server <- function(input, output, session) {
                      enc2utf8("總體神經功能(VITAL)")), result)
     names(result) = c("項目", "程度", "分析")
     
-    # print(result)
     return(result)
   }, ignoreNULL = TRUE)
   
   output$diagnoseRadar <- renderChartJSRadar({
     input$run_btton
+    input$clear_btton
     
     isolate({
       labs <- c("HEART", "HEALTH", "SEX", "FIGHT", "VITAL")
