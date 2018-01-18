@@ -11,13 +11,6 @@ ui <- dashboardPage(
                   #clear_btton { width: 45%; margin-top: 25px; margin-right: 5px; color: white; }
                   .shiny-output-error-validation {  color: red; }
                '),
-    tags$script(
-      'Shiny.addCustomMessageHandler("refocus",
-        function(element_id) {
-          document.getElementById(element_id).focus();
-        }
-      );'
-    ),
     fluidPage(sidebarLayout(
       sidebarPanel(
         width = 3,
@@ -62,7 +55,7 @@ ui <- dashboardPage(
             style = "background-color: #fcfcfc;"
           ),
           wellPanel(
-            dataTableOutput('diagnoseTable'),
+            dataTableOutput("diagnoseTable"),
             style = "height: 100%;"
           )
         )

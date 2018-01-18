@@ -3,21 +3,25 @@ source("deps.R")
 
 server <- function(input, output, session) {
   
+  proxy = dataTableProxy("diagnoseTable")
+  
   observeEvent(input$clear_btton, {
     updateTextInput(session, "input_heart", value = "")
     updateTextInput(session, "input_sex", value = "")
     updateTextInput(session, "input_health", value = "")
     updateTextInput(session, "input_fight", value = "")
     updateTextInput(session, "input_vital", value = "")
+    
+    replaceData(proxy, data.frame(), rownames = FALSE)
   }, ignoreNULL = TRUE)
   
   diagnosis <- eventReactive(input$run_btton, {
     validate(
-      need(input$input_heart > 0 && input$input_heart < 100, enc2utf8("心跳速率(HEART)須介於1至99之間!")),
-      need(input$input_sex > 0 && input$input_sex < 100, enc2utf8("副交感神經(SEX)須介於1至99之間!")),
-      need(input$input_health > 0 && input$input_health < 100, enc2utf8("自律神經整體活性(HEALTH)須介於1至99之間!")),
-      need(input$input_fight > 0 && input$input_fight < 100, enc2utf8("交感神經(FIGHT)須介於1至99之間!")),
-      need(input$input_vital > 0 && input$input_vital < 100, enc2utf8("整體神經功能(VITAL)須介於1至99之間!"))
+      need(as.integer(input$input_heart) > 0 && as.integer(input$input_heart) < 100, enc2utf8("心跳速率(HEART)須介於1至99之間!")),
+      need(as.integer(input$input_sex) > 0 && as.integer(input$input_sex) < 100, enc2utf8("副交感神經(SEX)須介於1至99之間!")),
+      need(as.integer(input$input_health) > 0 && as.integer(input$input_health) < 100, enc2utf8("自律神經整體活性(HEALTH)須介於1至99之間!")),
+      need(as.integer(input$input_fight) > 0 && as.integer(input$input_fight) < 100, enc2utf8("交感神經(FIGHT)須介於1至99之間!")),
+      need(as.integer(input$input_vital) > 0 && as.integer(input$input_vital) < 100, enc2utf8("整體神經功能(VITAL)須介於1至99之間!"))
     )
     
     heart = diagnosis_rules("heart", as.integer(input$input_heart))
@@ -75,9 +79,7 @@ server <- function(input, output, session) {
                                      list(width = '120px', targets = c(0)),
                                      list(width = '50px', targets = c(1)),
                                      list(className = 'dt-center', targets = 0:1)
-                                   )),
-              style = 'default',
-              rownames = NULL) %>%
+                                   )), style = 'default', rownames = NULL) %>%
       formatStyle("程度",
                   color = styleEqual(
                     c("嚴重", "注意", "正常", "健康"),
