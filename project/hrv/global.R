@@ -128,7 +128,7 @@ diagnosis_rules <- function(type, value) {
                   "vital"={
                     # 總體神經功能 (VITAL)
                     if (value >= 1 && value <= 20) {
-                      list(enc2utf8("不健康"),
+                      list(enc2utf8("健康高風險"),
                            paste0(enc2utf8("數值↓↓↓安全範圍數值"),
                                   "<br/>",
                                   enc2utf8("指數過低，身體元氣力嚴重不足，生理年齡老化10歲左右，可能有疾病困擾。"),

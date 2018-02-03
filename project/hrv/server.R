@@ -90,7 +90,7 @@ server <- function(input, output, session) {
                       enc2utf8("正常"),
                       enc2utf8("健康"),
                       enc2utf8("亞健康"),
-                      enc2utf8("不健康")),
+                      enc2utf8("健康高風險")),
                     c("white", "white", "black", "black", "white", "white", "white", "white")
                   ),
                   backgroundColor = styleEqual(
@@ -101,8 +101,8 @@ server <- function(input, output, session) {
                       enc2utf8("正常"),
                       enc2utf8("健康"), 
                       enc2utf8("亞健康"), 
-                      enc2utf8("不健康")),
-                    c("red", "red", "yellow", "yellow", "green", "blue", "blue", "red")
+                      enc2utf8("健康高風險")),
+                    c("red", "red", "yellow", "yellow", "green", "blue", "blue", "blue")
                   ),
                   fontWeight = 'bold')
   })
