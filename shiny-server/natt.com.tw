@@ -1,0 +1,31 @@
+
+server {
+    listen 80;
+
+    root /var/www/natt.com.tw/public_html;
+    index index.html index.htm;
+    server_name natt.com.tw www.natt.com.tw;
+    # server_name _;
+
+    location / {
+        try_files $uri $uri/ /index.htm;
+    }
+
+    location ~/\.ht {
+        deny all;
+    }
+
+    # Shiny Server
+    location /hrv/ {
+        rewrite ^/hrv/(.*)$ /hrv/$1 break;
+        proxy_pass http://localhost:3838;
+        proxy_redirect http://localhost:3838/ $scheme://$host/hrv/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_read_timeout 20d;
+        proxy_buffering off;
+    }
+
+}
+
