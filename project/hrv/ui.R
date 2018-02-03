@@ -48,7 +48,7 @@ ui <- dashboardPage(
           width = 12,
           align="center",
           wellPanel(
-            h3(enc2utf8("診斷結果"),
+            h3(enc2utf8("五力圖數據判讀結果"),
                style = "text-align: center;"),
             chartJSRadarOutput("diagnoseRadar"),
             # chartJSRadarOutput("diagnoseRadar", width = "300", height = "200"),

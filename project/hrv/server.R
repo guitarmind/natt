@@ -40,7 +40,7 @@ server <- function(input, output, session) {
                      enc2utf8("自律神經整體活性(HEALTH)"),
                      enc2utf8("交感神經(FIGHT)"),
                      enc2utf8("總體神經功能(VITAL)")), result)
-    names(result) = c("項目", "程度", "分析")
+    names(result) = c("評估項目", "健康程度", "判讀分析")
     
     return(result)
   }, ignoreNULL = TRUE)
@@ -79,15 +79,30 @@ server <- function(input, output, session) {
                                      list(width = '120px', targets = c(0)),
                                      list(width = '50px', targets = c(1)),
                                      list(className = 'dt-center', targets = 0:1)
-                                   )), style = 'default', rownames = NULL) %>%
-      formatStyle("程度",
+                                   )), style = 'default', rownames = NULL,
+              escape = FALSE) %>%
+      formatStyle("健康程度",
                   color = styleEqual(
-                    c("嚴重", "注意", "正常", "健康"),
-                    c("white", "black", "white", "white")
+                    c(enc2utf8("風險Ⅰ型"),
+                      enc2utf8( "風險Ⅱ型"), 
+                      enc2utf8("注意Ⅰ型"),
+                      enc2utf8("注意ⅠⅠ型"),
+                      enc2utf8("正常"),
+                      enc2utf8("健康"),
+                      enc2utf8("亞健康"),
+                      enc2utf8("不健康")),
+                    c("white", "white", "black", "black", "white", "white", "white", "white")
                   ),
                   backgroundColor = styleEqual(
-                    c("嚴重", "注意", "正常", "健康"),
-                    c("red", "yellow", "green", "blue")
+                    c(enc2utf8("風險Ⅰ型"), 
+                      enc2utf8("風險Ⅱ型"), 
+                      enc2utf8("注意Ⅰ型"),
+                      enc2utf8("注意Ⅱ型"), 
+                      enc2utf8("正常"),
+                      enc2utf8("健康"), 
+                      enc2utf8("亞健康"), 
+                      enc2utf8("不健康")),
+                    c("red", "red", "yellow", "yellow", "green", "blue", "blue", "red")
                   ),
                   fontWeight = 'bold')
   })
