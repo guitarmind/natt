@@ -2,10 +2,21 @@
 source("deps.R")
 
 server <- function(input, output, session) {
+  user = reactiveValues(logged = ifelse(debug, T, F))
   
   proxy = dataTableProxy("diagnoseTable")
   
-  observeEvent(input$clear_btton, {
+  observeEvent(input$login_button, {
+    shinyjs::hide("login_failed")
+    if(validate_password(input$username, input$password)) {
+      user$logged = T
+      # print(paste0("User login: ",user$logged))
+    } else {
+      shinyjs::show("login_failed")
+    }
+  })
+  
+  observeEvent(input$clear_button, {
     updateTextInput(session, "input_heart", value = "")
     updateTextInput(session, "input_sex", value = "")
     updateTextInput(session, "input_health", value = "")
@@ -15,7 +26,7 @@ server <- function(input, output, session) {
     replaceData(proxy, data.frame(), rownames = FALSE)
   }, ignoreNULL = TRUE)
   
-  diagnosis <- eventReactive(input$run_btton, {
+  diagnosis <- eventReactive(input$run_button, {
     validate(
       need(as.integer(input$input_heart) > 0 && as.integer(input$input_heart) < 100, enc2utf8("心跳速率(HEART)須介於1至99之間!")),
       need(as.integer(input$input_sex) > 0 && as.integer(input$input_sex) < 100, enc2utf8("副交感神經(SEX)須介於1至99之間!")),
@@ -45,9 +56,18 @@ server <- function(input, output, session) {
     return(result)
   }, ignoreNULL = TRUE)
   
+  output$body <- renderUI({
+    if (user$logged == T) {
+      main_page
+    }
+    else {
+      login_page
+    }
+  })
+  
   output$diagnoseRadar <- renderChartJSRadar({
-    input$run_btton
-    input$clear_btton
+    input$run_button
+    input$clear_button
     
     isolate({
       labs <- c("HEART", "HEALTH", "SEX", "FIGHT", "VITAL")

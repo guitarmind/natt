@@ -1,6 +1,8 @@
 library(shiny)
 library(shinydashboard)
+library(shinyjs)
 library(radarchart)
 library(magrittr)
 library(data.table)
 library(DT)
+library(digest)

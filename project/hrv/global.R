@@ -1,4 +1,97 @@
 
+# Debug mode switch
+debug <- F
+
+user_accounts <- list(
+  "markpeng"="47ef8bc6f8eda0a983ebe7f9fe02e59b38be6ff4ee212a34451e96c505a77c28",
+  "rudy"="b8c8147fb8064fc222363492e7f362fe5c05a024cfc32400e22a06ee73320770"
+)
+
+# Utilit Functions #
+
+validate_password = function(username, password) {
+  if(username %in% names(user_accounts)) {
+    check = digest(password, algo="sha256", serialize=F)
+    if(check == user_accounts[username]) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+
+
+# UI Pages #
+
+login_page <- fluidPage(
+  useShinyjs(),  # Include shinyjs
+  column(
+    width = 4,
+    offset = 5,
+    box(title = enc2utf8("請輸入帳號密碼:"),
+        status = "primary",
+        textInput("username", enc2utf8("帳號")),
+        passwordInput("password", enc2utf8("密碼")),
+        shinyjs::hidden(
+          p(id = "login_failed", enc2utf8("帳號密碼錯誤!"),
+            style = "color: red; font-size: 18px;")
+        ),
+        actionButton("login_button", enc2utf8("登入"),
+                     icon = icon("sign-in-alt"),
+                     class = "btn-primary"))
+  )
+)
+
+main_page <- fluidPage(sidebarLayout(
+  sidebarPanel(
+    width = 3,
+    textInput(inputId = "input_heart",
+              label = enc2utf8("心跳速率(HEART):"),
+              value = "",
+              width = "95%"),
+    textInput(inputId = "input_sex",
+              label = enc2utf8("副交感神經(SEX):"),
+              value = "",
+              width = "95%"),
+    textInput(inputId = "input_health",
+              label = enc2utf8("自律神經整體活性(HEALTH):"),
+              value = "",
+              width = "95%"),
+    textInput(inputId = "input_fight",
+              label = enc2utf8("交感神經(FIGHT):"),
+              value = "",
+              width = "95%"),
+    textInput(inputId = "input_vital",
+              label = enc2utf8("整體神經功能(VITAL):"),
+              value = "",
+              width = "95%"),
+    div(actionButton("clear_button", enc2utf8("清除"),
+                     icon = icon("trash"),
+                     class = "btn-primary"),
+        actionButton("run_button", enc2utf8("診斷"),
+                     icon = icon("refresh"),
+                     class = "btn-primary"),
+        style = "text-align: right")
+  ),
+  mainPanel(
+    width = 9,
+    column(
+      width = 12,
+      align="center",
+      wellPanel(
+        h3(enc2utf8("五力圖數據判讀結果"),
+           style = "text-align: center;"),
+        chartJSRadarOutput("diagnoseRadar"),
+        # chartJSRadarOutput("diagnoseRadar", width = "300", height = "200"),
+        style = "background-color: #fcfcfc;"
+      ),
+      wellPanel(
+        dataTableOutput("diagnoseTable"),
+        style = "height: 100%;"
+      )
+    )
+  )
+), title = enc2utf8("五力圖數值診斷"))
+
 diagnosis_rules <- function(type, value) {
   
   result = switch(type,
